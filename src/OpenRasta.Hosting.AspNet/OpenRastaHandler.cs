@@ -60,8 +60,11 @@ namespace OpenRasta.Hosting.AspNet
         {
             using (Log.Operation(this, "Rewriting to original path"))
             {
+
                 HttpContext.Current.RewritePath((string)HttpContext.Current.Items[OpenRastaModule.ORIGINAL_PATH_KEY], false);
                 OpenRastaModule.HostManager.Resolver.Resolve<OpenRastaIntegratedHandler>().ProcessRequest(context);
+
+                Log.WriteInfo("OpenRastaRewriterHandler.ProcessRequest: Request {0} resulted in a HTTP {1} status code.", context.Request.Url, context.Response.StatusCode);
             }
         }
     }
@@ -85,6 +88,8 @@ namespace OpenRasta.Hosting.AspNet
             {
                 OpenRastaModule.Host.RaiseIncomingRequestReceived(OpenRastaModule.CommunicationContext);
             }
+
+            Log.WriteInfo("OpenRastaRewriterHandler.ProcessRequest: Request {0} resulted in a HTTP {1} status code.", context.Request.Url, context.Response.StatusCode);
         }
     }
 }

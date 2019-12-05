@@ -149,12 +149,17 @@ namespace OpenRasta.Hosting.AspNet
 
         static void HandleHttpApplicationEndRequestEvent(object sender, EventArgs e)
         {
+            Log.WriteInfo("End OpenRastaModule.HandleHttpApplicationEndRequestEvent. StatusCode: {0}", ((HttpApplication)sender).Response.StatusCode);
+
             if (HttpContext.Current.Items.Contains(ORIGINAL_PATH_KEY))
             {
+
                 var commContext = (ICommunicationContext)((HttpApplication)sender).Context.Items[COMM_CONTEXT_KEY];
 
                 Host.RaiseIncomingRequestProcessed(commContext);
             }
+
+            Log.WriteInfo("End OpenRastaModule.HandleHttpApplicationEndRequestEvent. StatusCode: {0}", ((HttpApplication)sender).Response.StatusCode);
         }
 
         static void HandleHttpApplicationPostResolveRequestCacheEvent(object sender, EventArgs e)
